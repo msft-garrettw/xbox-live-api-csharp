@@ -4,12 +4,14 @@
 namespace Microsoft.Xbox.Services.UnitTests.Leaderboards
 {
     using global::System;
+    using global::System.Collections.Generic;
     using global::System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Xbox.Services.Leaderboard;
 
     using Newtonsoft.Json.Linq;
+    using Services.Stats.Manager;
 
     [TestClass]
     public class LeaderboardTests : TestBase
@@ -75,7 +77,9 @@ namespace Microsoft.Xbox.Services.UnitTests.Leaderboards
             this.VerifyLeaderboardResult(result, responseJson);
 
             // Testing continuation token with GetNext.
-            LeaderboardResult nextResult = await result.GetNextAsync(100);
+            StatsManager.Singleton.GetLeaderboard(user, "Jumps", new LeaderboardQuery());
+            List<StatEvent> events = Services.Stats.Manager.StatsManager.Singleton.DoWork();
+            LeaderboardResult nextResult = (events[0].EventArgs as LeaderboardResultEventArgs).Result;
             MockXboxLiveData.MockRequestData mockRequestDataWithContinuationToken = MockXboxLiveData.MockResponses["defaultLeaderboardDataWithContinuationToken"];
             JObject responseJsonWithContinuationToken = JObject.Parse(mockRequestDataWithContinuationToken.Response.ResponseBodyString);
             Assert.AreEqual("GET", mockRequestDataWithContinuationToken.Request.Method);
