@@ -67,7 +67,7 @@ namespace Microsoft.Xbox.Services.Leaderboard
             }
             else
             {
-                requestPath = CreateLeaderboardUrlPath(serviceConfigurationId, leaderboardName, xuid, query.MaxItems, skipToXboxUserId, query.SkipResultsToRank, query.ContinuationToken, socialGroup);
+                requestPath = CreateLeaderboardUrlPath(serviceConfigurationId, leaderboardName, query.MaxItems, skipToXboxUserId, query.SkipResultsToRank, query.ContinuationToken, socialGroup);
             }
 
             XboxLiveHttpRequest request = XboxLiveHttpRequest.Create(xboxLiveContextSettings, HttpMethod.Get, leaderboardsBaseUri.ToString(), requestPath);
@@ -130,15 +130,10 @@ namespace Microsoft.Xbox.Services.Leaderboard
             return result;
         }
 
-        private string CreateLeaderboardUrlPath(string serviceConfigurationId, string leaderboardName, string xuid, uint maxItems, string skipToXboxUserId, uint skipToRank, string continuationToken, string socialGroup)
+        private string CreateLeaderboardUrlPath(string serviceConfigurationId, string leaderboardName, uint maxItems, string skipToXboxUserId, uint skipToRank, string continuationToken, string socialGroup)
         {
             StringBuilder requestPath = new StringBuilder();
             requestPath.AppendFormat("scids/{0}/leaderboards/stat({1})?", serviceConfigurationId, leaderboardName);
-
-            if (xuid != null)
-            {
-                AppendQueryParameter(requestPath, "xuid", xuid);
-            }
 
             if (maxItems > 0)
             {

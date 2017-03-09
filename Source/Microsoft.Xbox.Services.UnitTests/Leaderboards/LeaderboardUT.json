@@ -15,7 +15,7 @@
                 "leaderboardInfo": {
                     "totalCount": 38,
                     "columnDefinition": {
-                        "statName": "EnemyDefeats",
+                        "statName": "Jumps",
                         "type": "Integer"
                     }
                 },
