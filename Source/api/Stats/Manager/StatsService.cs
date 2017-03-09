@@ -81,7 +81,7 @@ namespace Microsoft.Xbox.Services.Stats.Manager
                 var svdModel = JsonConvert.DeserializeObject<Models.StatsValueDocumentModel>(response.ResponseBodyJson);
                 var svd = new StatsValueDocument(svdModel.Stats.Title)
                 {
-                    Revision = svdModel.Revision
+                    Revision = svdModel.Revision + 1
                 };
                 return svd;
             });
